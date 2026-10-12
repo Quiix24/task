@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
 import '../errors/app_exception.dart';
@@ -24,6 +25,7 @@ class ApiClient {
   }) {
     return _request(
       () => _dio.get<dynamic>(path, queryParameters: queryParameters),
+      'GET $path',
     );
   }
 
@@ -38,15 +40,26 @@ class ApiClient {
         data: data,
         queryParameters: queryParameters,
       ),
+      'POST $path',
     );
   }
 
   Future<Response<dynamic>> _request(
     Future<Response<dynamic>> Function() request,
+    String label,
   ) async {
+    debugPrint('ApiClient: requesting $label');
     try {
-      return await request();
+      final response = await request();
+      debugPrint(
+        'ApiClient: $label completed with status ${response.statusCode}',
+      );
+      return response;
     } on DioException catch (error) {
+      debugPrint(
+        'ApiClient: $label failed with ${error.type}, '
+        'status ${error.response?.statusCode ?? 'none'}',
+      );
       throw _mapException(error);
     }
   }
