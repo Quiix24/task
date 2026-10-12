@@ -32,7 +32,11 @@ lib/
 └── main.dart
 ```
 
-Riverpod provides simple, testable dependency wiring and async state for categories, products, product details, and cart actions. Dio is isolated in the API client, so widgets do not perform networking.
+## State Management
+
+The app uses `flutter_riverpod` for dependency wiring and async state. Providers manage categories, products, product details, and cart actions. Widgets watch provider state and do not perform networking.
+
+`Dio` is isolated in the API client, while repositories and data sources keep API details out of the UI.
 
 ## Tests
 

@@ -15,6 +15,7 @@ class ProductExplorerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Product Explorer',
       theme: ThemeData(colorSchemeSeed: Colors.indigo, useMaterial3: true),
       home: const ProductsScreen(),

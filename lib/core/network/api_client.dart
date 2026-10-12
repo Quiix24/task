@@ -68,12 +68,12 @@ class ApiClient {
     if (error.type == DioExceptionType.badResponse || error.response != null) {
       return ServerException(
         statusCode: error.response?.statusCode,
-        message: 'The server returned an error. Please try again later.',
+        message: 'The server returned an error. Please try again later. 0_0',
       );
     }
 
     return const NetworkException(
-      'Unable to connect to the server. Please check your internet connection.',
+      'Unable to connect to the server. Please check your internet connection :<',
     );
   }
 }

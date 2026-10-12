@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
 import '../../../../core/network/api_client.dart';
 import 'models/product_model.dart';
 
@@ -25,13 +29,16 @@ class ProductRemoteDataSource {
 
   Future<ProductModel> getProductById(int id) async {
     final response = await _apiClient.get('/products/$id');
+    debugPrint(
+      'ProductRemoteDataSource: product $id JSON: ${jsonEncode(response.data)}',
+    );
     return ProductModel.fromJson(
       Map<String, dynamic>.from(response.data as Map),
     );
   }
 
   Future<void> addToCart(int productId) async {
-    await _apiClient.post(
+    final response = await _apiClient.post(
       '/carts',
       data: {
         'userId': 1,
@@ -39,6 +46,9 @@ class ProductRemoteDataSource {
           {'productId': productId, 'quantity': 1},
         ],
       },
+    );
+    debugPrint(
+      'ProductRemoteDataSource: cart response: ${jsonEncode(response.data)}',
     );
   }
 
