@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models/product_model.dart';
 import '../providers/products_provider.dart';
+import 'product_detail_screen.dart';
 import 'widgets/error_view.dart';
 import 'widgets/product_card.dart';
 
@@ -26,12 +27,15 @@ class ProductsScreen extends ConsumerWidget {
                 error: error,
                 onRetry: () => ref.invalidate(categoriesProvider),
               ),
-              data: (categoryNames) => _CategoryChips(
-                categories: categoryNames,
-                selectedCategory: ref.watch(selectedCategoryProvider),
-                onSelected: (category) => ref
-                    .read(selectedCategoryProvider.notifier)
-                    .select(category),
+              data: (categoryNames) => SizedBox(
+                height: 56,
+                child: _CategoryChips(
+                  categories: categoryNames,
+                  selectedCategory: ref.watch(selectedCategoryProvider),
+                  onSelected: (category) => ref
+                      .read(selectedCategoryProvider.notifier)
+                      .select(category),
+                ),
               ),
             ),
           ),
@@ -114,25 +118,11 @@ class _ProductGrid extends StatelessWidget {
           product: product,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) => ProductDetailPlaceholderScreen(product: product),
+              builder: (_) => ProductDetailScreen(productId: product.id),
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class ProductDetailPlaceholderScreen extends StatelessWidget {
-  final ProductModel product;
-
-  const ProductDetailPlaceholderScreen({required this.product, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(product.title)),
-      body: Center(child: Text('Product detail for #${product.id}')),
     );
   }
 }
